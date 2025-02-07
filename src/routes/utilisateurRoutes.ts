@@ -164,5 +164,8 @@ router.get("/signin/resetTentative/:id", UtilisateurController.resetTentative);
  */
 // @ts-ignore
 router.get("/get-utilisateur", UtilisateurController.getUserByToken);
+// @ts-ignore
+router.get("/get-utilisateur/:id", UtilisateurController.getUserById);
+
 
 export default router;
