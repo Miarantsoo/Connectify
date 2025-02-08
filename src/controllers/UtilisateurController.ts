@@ -90,6 +90,8 @@ export class UtilisateurController {
             newUser.mail = inscriptionPending.mail;
             newUser.motDePasse = inscriptionPending.motDePasse;
             await utilisateurRepository.save(newUser);
+            
+            console.log("zioefh");
 
             await firestore.collection('utilisateur').doc(String(newUser.id)).set({
                 nom: newUser.nom,
@@ -325,26 +327,29 @@ export class UtilisateurController {
         }
     }
 
-    static async getUserById(req: Request, res: Response): Promise<object> {
+    static getAllUtilisateurs = async (req: Request, res: Response) => {
+        try {
+            const utilisateurs = await utilisateurRepository.find();
+            res.json(utilisateurs);
+        } catch (error) {
+            console.error("Error fetching utilisateurs:", error);
+            res.status(500).json({ message: "Internal server error" });
+        }
+    };
+
+    static getUtilisateurById = async (req: Request, res: Response) => {
         try {
             const { id } = req.params;
-            const user = await utilisateurRepository.findById(Number(id));
-
-            if (!user) {
-                return res.status(404).json(ResponseService.getJSONTemplate("error", {
-                    message: "Utilisateur non trouvé"
-                }));
+            const utilisateur = await utilisateurRepository.findOneBy({ id: parseInt(id) });
+            
+            if (!utilisateur) {
+                return res.status(404).json({ message: "Utilisateur not found" });
             }
-
-            return res.json(ResponseService.getJSONTemplate("success", {
-                message: "Utilisateur trouvé",
-                data: user
-            }));
-
+            
+            res.json(utilisateur);
         } catch (error) {
-            return res.status(500).json(ResponseService.getJSONTemplate("error", {
-                message: "Erreur lors de la récupération: " + error
-            }));
+            console.error("Error fetching utilisateur:", error);
+            res.status(500).json({ message: "Internal server error" });
         }
-    }
+    };
 }

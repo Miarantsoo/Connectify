@@ -164,8 +164,31 @@ router.get("/signin/resetTentative/:id", UtilisateurController.resetTentative);
  */
 // @ts-ignore
 router.get("/get-utilisateur", UtilisateurController.getUserByToken);
-// @ts-ignore
-router.get("/get-utilisateur/:id", UtilisateurController.getUserById);
 
+/**
+ * @openapi
+ * /all:
+ *   get:
+ *     summary: Get all users in database
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: Users retrieved successfully
+ */
+// @ts-ignore
+router.get("/all", UtilisateurController.getAllUtilisateurs);
+
+/**
+ * @openapi
+ * /all:
+ *   get:
+ *     summary: Get all users in database
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: Users retrieved successfully
+ */
+// @ts-ignore
+router.get("/by-id/:id", UtilisateurController.getUtilisateurById);
 
 export default router;
