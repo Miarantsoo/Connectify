@@ -191,4 +191,7 @@ router.get("/all", UtilisateurController.getAllUtilisateurs);
 // @ts-ignore
 router.get("/by-id/:id", UtilisateurController.getUtilisateurById);
 
+// @ts-ignore
+router.get("/get-utilisateur/:id", UtilisateurController.getUserById);
+
 export default router;

@@ -352,4 +352,27 @@ export class UtilisateurController {
             res.status(500).json({ message: "Internal server error" });
         }
     };
+
+    static async getUserById(req: Request, res: Response): Promise<object> {
+        try {
+            const { id } = req.params;
+            const user = await utilisateurRepository.findById(Number(id));
+
+            if (!user) {
+                return res.status(404).json(ResponseService.getJSONTemplate("error", {
+                    message: "Utilisateur non trouvé"
+                }));
+            }
+
+            return res.json(ResponseService.getJSONTemplate("success", {
+                message: "Utilisateur trouvé",
+                data: user
+            }));
+
+        } catch (error) {
+            return res.status(500).json(ResponseService.getJSONTemplate("error", {
+                message: "Erreur lors de la récupération: " + error
+            }));
+        }
+    }
 }
