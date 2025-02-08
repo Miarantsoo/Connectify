@@ -7,5 +7,8 @@ export const utilisateurRepository = AppDataSource.getRepository(Utilisateur).ex
     },
     findById: async function(id: number): Promise<Utilisateur | null> {
         return await this.findOne({ where: { id } });
+    },
+    findAll: async function(): Promise<Utilisateur[] | null> {
+        return await this.find();
     }
 });
