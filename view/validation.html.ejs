@@ -87,8 +87,24 @@
                             text-decoration: none;
                             display: inline-block;
                         ">
-                            localhost:8089/utilisateur/signup/verification/<%= uid %>
+                            localhost:8080/utilisateur/signup/verification/<%= uid %>
                         </p>
+                        <a href="http://localhost:8080/utilisateur/signup/verification/<%= uid %>" target="_blank">
+                            <button style="
+                              font-family: Arial, sans-serif;
+                              font-size: 16px;
+                              border-color: blue;
+                              border-radius: 10px;
+                              background-color: blue;
+                              color: white;
+                              text-decoration: none;
+                              display: inline-block;
+                              padding: calc(8px*1.618);
+                              cursor: pointer;
+                            ">
+                              Valider
+                            </button>
+                        </a>
                     </td>
                 </tr>
             </table>
