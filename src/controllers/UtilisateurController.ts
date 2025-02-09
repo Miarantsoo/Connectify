@@ -244,7 +244,8 @@ export class UtilisateurController {
             await loginTentativeRepository.save(tentative);
 
             return res.status(400).json(ResponseService.getJSONTemplate("error", {
-                message: "Code PIN invalide"
+                // @ts-ignore
+                message: `Code PIN invalide. Tentative restante: ${tentative.tentative}`
             }));
 
         } catch (error) {
