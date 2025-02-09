@@ -194,4 +194,7 @@ router.get("/by-id/:id", UtilisateurController.getUtilisateurById);
 // @ts-ignore
 router.get("/get-utilisateur/:id", UtilisateurController.getUserById);
 
+// @ts-ignore
+router.post("/signin/admin", UtilisateurController.identifyAdmin);
+
 export default router;

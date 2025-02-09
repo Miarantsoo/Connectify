@@ -397,4 +397,24 @@ export class UtilisateurController {
             }));
         }
     }
+
+    static async identifyAdmin(req: Request, res: Response) {
+        try {
+            const { email, mdp } = req.body;
+            console.log(`Email: ${email}, Mdp: ${mdp}`);
+            if (email == "admin" && mdp == "admin") {
+                return res.status(200).json(ResponseService.getJSONTemplate("success", {
+                    message: "Admin identifié avec succès",
+                }));
+            } else {
+                return res.status(500).json(ResponseService.getJSONTemplate("error", {
+                    message: "Identifiant ou mot de passe incorrect"
+                }));
+            }
+        } catch (error) {
+            return res.status(500).json(ResponseService.getJSONTemplate("error", {
+                message: "Erreur lors du login admin: " + error
+            }));
+        }
+    }
 }
