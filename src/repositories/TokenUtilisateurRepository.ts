@@ -8,6 +8,6 @@ export const tokenUtilisateurRepository = AppDataSource.getRepository(TokenUtili
 
         return this.createQueryBuilder('tu')
             .where('tu.token = :token', { token })
-            .andWhere('tu.daty >= :validSince', { validSince })
+            .andWhere('tu.updated_at >= :validSince', { validSince })
             .getOne();
     }});

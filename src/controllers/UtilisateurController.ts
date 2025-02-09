@@ -316,7 +316,15 @@ export class UtilisateurController {
                     message: "Token non fourni"
                 }));
             }
-
+            const validate=await tokenUtilisateurRepository.findValidCodeByUtilisateur(
+                token,
+                Number(await configService.getTokenRef())
+            );
+            if (validate?.token === undefined) {
+                return res.status(401).json(ResponseService.getJSONTemplate("error", {
+                    message: "Votre token n'est plus valide"
+                }));
+            }
             const tokenUtilisateur = await tokenUtilisateurRepository.findOne({
                 where: { token },
                 relations: ["utilisateur"]
