@@ -6,6 +6,15 @@ export const doubleAuthRepository = AppDataSource.getRepository(DoubleAuthentifi
     saveDoubleAuthentification(doubleAuth: DoubleAuthentification): Promise<DoubleAuthentification> {
         return this.save(doubleAuth); // No flush needed
     },
+
+    findLastValidCodeByUtilisateur(idUtilisateur: number): Promise<DoubleAuthentification | null> {
+        return this.createQueryBuilder("da")
+            .innerJoin("da.utilisateur", "u")
+            .where("u.id = :idUtilisateur", { idUtilisateur })
+            .orderBy("da.daty", "DESC")
+            .getOne();
+    },
+
     findValidCodeByUtilisateur(idUtilisateur: number, validDuration: number): Promise<DoubleAuthentification | null> {
         const validSince = new Date(Date.now() - validDuration * 1000);
 

@@ -29,7 +29,10 @@ export class EmailService {
         const index = this.subjects.indexOf(subject);
         if (index === -1) throw new Error('Invalid subject');
 
-        const pin = await this.generatePIN(uid);
+        let pin = 0;
+        if(subject === 'Authentification de votre profil') {
+            pin = await this.generatePIN(uid)
+        }
 
         const html = await renderFile(this.paths[index], { codePin: pin, uid: uid });
 

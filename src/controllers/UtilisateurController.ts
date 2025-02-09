@@ -138,7 +138,7 @@ export class UtilisateurController {
             const tentative = await loginTentativeRepository.getLastByIdUtilisateur(user.id);
 
             // @ts-ignore
-            if (user.motDePasse === hashMdp && tentative.tentative > 0) {
+            if (user.motDePasse === hashMdp && tentative.tentative > 1) {
                 const existingCode = await doubleAuthRepository.findValidCodeByUtilisateur(
                     user.id,
                     Number(await configService.getDelaisRef())
@@ -165,7 +165,7 @@ export class UtilisateurController {
                 await emailService.createMail(user.mail, EmailSubject.RESET, user.id);
 
                 return res.status(400).json(ResponseService.getJSONTemplate("error", {
-                    message: "Un email de réinitialisation a été envoyé"
+                    message: "Un email de réinitialisation a été envoyé ou encore non confirmé"
                 }));
             }
 
@@ -220,6 +220,13 @@ export class UtilisateurController {
                 tokenUtilisateur.token = token;
                 tokenUtilisateur.updatedAt = new Date();
                 await tokenUtilisateurRepository.save(tokenUtilisateur);
+                // @ts-ignore
+                const lastCode = await doubleAuthRepository.findLastValidCodeByUtilisateur(user.id)
+                if (lastCode){
+                    console.log(lastCode)
+                    lastCode.daty = new Date(2020, 0, 1);
+                    await doubleAuthRepository.update({ id: lastCode.id }, lastCode);
+                }
 
                 return res.json(ResponseService.getJSONTemplate("success", {
                     message: "Connecté(e) avec succès",
@@ -232,7 +239,13 @@ export class UtilisateurController {
                 const emailService = new EmailService();
                 // @ts-ignore
                 await emailService.createMail(user.mail, EmailSubject.RESET, user.id);
-
+                // @ts-ignore
+                const lastCode = await doubleAuthRepository.findLastValidCodeByUtilisateur(user.id)
+                if (lastCode){
+                    console.log(lastCode)
+                    lastCode.daty = new Date(2020, 0, 1);
+                    await doubleAuthRepository.update({ id: lastCode.id }, lastCode);
+                }
                 return res.status(400).json(ResponseService.getJSONTemplate("error", {
                     message: "Un email de réinitialisation a été envoyé"
                 }));
